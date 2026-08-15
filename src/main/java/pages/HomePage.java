@@ -12,6 +12,7 @@ public class HomePage extends BasePage {
     public HomePage(WebDriver driver) {
         setDriver(driver);
         driver.get(getProperty("base.properties","baseUrl"));
+
         PageFactory.initElements(new AjaxElementLocatorFactory(driver, 10), this);
 
     }
