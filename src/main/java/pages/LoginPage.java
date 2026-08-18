@@ -9,7 +9,7 @@ import org.openqa.selenium.support.pagefactory.AjaxElementLocatorFactory;
 
 public class LoginPage extends BasePage {
     public LoginPage(WebDriver driver) {
-        PageFactory.initElements(new AjaxElementLocatorFactory(driver,10), this);
+        PageFactory.initElements(new AjaxElementLocatorFactory(driver, 10), this);
     }
 
     @FindBy(xpath = "//form/input[1]")
@@ -21,13 +21,17 @@ public class LoginPage extends BasePage {
     @FindBy(xpath = "//button[@type='submit' and @name='login']")
     WebElement btnLogin;
 
-    public void typeLoginRegistrationForm(UserLombok user){
+    public void typeLoginRegistrationForm(UserLombok user) {
         inputEmail.sendKeys(user.getUsername());
         inputPassword.sendKeys(user.getPassword());
     }
 
-    public void clickBtnRegistration(){
+    public void clickBtnRegistration() {
         btnRegistration.click();
+    }
+
+    public void clickBtnLogin() {
+        btnLogin.click();
     }
 
 }
