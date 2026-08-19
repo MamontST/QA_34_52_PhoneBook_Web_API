@@ -24,12 +24,12 @@ public abstract class BasePage {
         }
     }
 
-    public String closeAlert(){
+    public String closeAlert() {
         Alert alert = new WebDriverWait(driver, Duration.ofSeconds(5))
                 .until(ExpectedConditions.alertIsPresent());
         String alertText = alert.getText();
         alert.accept();
-        return  alertText;
+        return alertText;
     }
 
     public boolean isTextInElementPresent(WebElement element, String text) {
@@ -42,5 +42,17 @@ public abstract class BasePage {
         }
         return false;
     }
+
+    public boolean isUrlContainsText(String text) {
+        try {
+            return new WebDriverWait(driver, Duration.ofSeconds(5))
+                    .until(ExpectedConditions.urlContains(text));
+        } catch (RuntimeException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    ;
 
 }
