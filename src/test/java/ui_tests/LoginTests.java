@@ -1,9 +1,11 @@
 package ui_tests;
 
+import data_providers.UserDataProvider;
 import dto.UserLombok;
 import manager.AppManager;
 import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 import org.testng.asserts.SoftAssert;
 import pages.ContactsPage;
@@ -37,10 +39,28 @@ public class LoginTests extends AppManager {
 
     @Test
     public void loginNegativeEmptyEmailTest() {
-        UserLombok user = positiveUser();
+        UserLombok user = positiveLoginUser();
         user.setUsername("");
         loginPage.typeLoginRegistrationForm(user);
         loginPage.clickBtnLogin();
         Assert.assertTrue(loginPage.closeAlert().contains("Wrong email or password"));
     }
+
+    @Test
+    public void loginNegativeEmptyPasswordTest() {
+        UserLombok user = positiveLoginUser();
+        user.setPassword("");
+        loginPage.typeLoginRegistrationForm(user);
+        loginPage.clickBtnLogin();
+        Assert.assertTrue(loginPage.closeAlert().contains("Wrong email or password"));
+    }
+
+    @Test(dataProvider = "dataProviderWrongPasswordForLogin", dataProviderClass = UserDataProvider.class)
+    public void loginNegativeWrongPasswordTest(UserLombok user) {
+        loginPage.typeLoginRegistrationForm(user);
+        loginPage.clickBtnLogin();
+        Assert.assertTrue(loginPage.closeAlert().contains("Wrong email or password"));
+    }
+
+
 }

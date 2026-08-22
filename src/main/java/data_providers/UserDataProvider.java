@@ -2,6 +2,7 @@ package data_providers;
 
 import dto.UserLombok;
 import org.testng.annotations.DataProvider;
+import utils.PropertiesReader;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -21,6 +22,27 @@ public class UserDataProvider {
                 String[] splitLine = line.split(",");
                 userList.add(UserLombok.builder()
                         .username(splitLine[0])
+                        .password(splitLine[1])
+                        .build());
+                line = br.readLine();
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+            System.out.println(e.getMessage());
+        }
+        return userList.listIterator();
+    }
+
+    @DataProvider
+    public Iterator<UserLombok> dataProviderWrongPasswordForLogin() {
+        List<UserLombok> userList = new ArrayList<>();
+        try (BufferedReader br = new BufferedReader(
+                new FileReader("src/test/resources/wrong_email_password.csv"))) {
+            String line = br.readLine();
+            while (line != null) {
+                String[] splitLine = line.split(",");
+                userList.add(UserLombok.builder()
+                        .username(PropertiesReader.getProperty("base.properties", "email_for_login"))
                         .password(splitLine[1])
                         .build());
                 line = br.readLine();
