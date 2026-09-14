@@ -15,7 +15,7 @@ public class AppManager {
     }
     public Logger logger = LoggerFactory.getLogger(AppManager.class);
 
-    @BeforeMethod
+    @BeforeMethod(alwaysRun = true)
     public void setUp(Method method) {
         driver = new ChromeDriver();
         driver.manage().window().maximize();
@@ -23,7 +23,7 @@ public class AppManager {
 
     }
 
-    @AfterMethod(enabled = false)
+    @AfterMethod(alwaysRun = true)
     public void tearDown() {
         if (driver != null) {
             driver.quit();

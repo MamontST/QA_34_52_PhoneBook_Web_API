@@ -19,7 +19,7 @@ public class LoginTests extends AppManager {
     LoginPage loginPage;
     SoftAssert softAssert;
 
-    @BeforeMethod
+    @BeforeMethod(alwaysRun = true)
     public void goToLoginPage() {
         new HomePage(getDriver()).clickBtnLogin();
         loginPage = new LoginPage(getDriver());
@@ -27,7 +27,7 @@ public class LoginTests extends AppManager {
 
     }
 
-    @Test
+    @Test(groups = {"smoke", "positive"})
     public void loginPositiveTest() {
         UserLombok user = positiveLoginUser();
         loginPage.typeLoginRegistrationForm(user);

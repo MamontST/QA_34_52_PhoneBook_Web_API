@@ -26,3 +26,15 @@ dependencies {
 test {
     useTestNG()
 }
+
+tasks.register('qa', Test){
+    useTestNG(){
+        suites 'src/test/resources/testng.xml'
+    }
+}
+
+tasks.register('positive', Test){
+    useTestNG(){
+        suites 'src/test/resources/scope.xml'
+    }
+}

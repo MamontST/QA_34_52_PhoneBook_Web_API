@@ -17,14 +17,14 @@ import java.util.Random;
 public class RegistrationTests extends AppManager {
     LoginPage loginPage;
 
-    @BeforeMethod
+    @BeforeMethod(alwaysRun = true)
     public void goToRegistrationPage() {
         logger.info("Navigating to Registration/Login page");
         new HomePage(getDriver()).clickBtnLogin();
         loginPage = new LoginPage(getDriver());
     }
 
-    @Test
+    @Test(groups = {"smoke", "positive"})
     public void registrationPositiveTest() {
         int i = new Random().nextInt(1000);
         UserLombok user = UserLombok.builder()
@@ -47,7 +47,7 @@ public class RegistrationTests extends AppManager {
 //    public void testAjaxMethod() {
 //        new HomePage(getDriver()).ajaxMethod();
 //    }
-    @Test
+    @Test(groups = {"smoke", "positive"})
     public void registrationPositiveWithFakerTest() {
         UserLombok user = positiveUser();
         System.out.println(user);
