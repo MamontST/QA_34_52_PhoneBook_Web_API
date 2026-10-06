@@ -64,7 +64,14 @@ public class AddNewContactApiTests implements BaseApi, ILogin {
             throw new RuntimeException(e);
         }
         ResponseMessageDto responseMessageDto;
-        responseMessageDto = GSON.fromJson(response.body().toString(), ResponseMessageDto.class);
+        try {
+            responseMessageDto =
+                    GSON.fromJson(response.body().string(),
+                            ResponseMessageDto.class);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
         System.out.println(responseMessageDto);
         softAssert.assertEquals(response.code(), 200, "validate status code");
         softAssert.assertTrue(responseMessageDto.getMessage().contains("Contact was added!"), "validate message");
