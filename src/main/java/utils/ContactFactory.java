@@ -9,11 +9,11 @@ public class ContactFactory {
     public static ContactDto positiveContact(){
         return ContactDto.builder()
                 .name(faker.name().firstName())
-                .lastname(faker.name().lastName())
+                .lastName(faker.name().lastName())
                 .email(faker.internet().emailAddress())
                 .phone(faker.number().digits(10))
                 .address(faker.address().fullAddress())
-                .description("My family")
+                .description("description")
                 .build();
     }
 }
