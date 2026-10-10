@@ -1,5 +1,6 @@
 package api_tests;
 
+import data_providers.UserDataProvider;
 import dto.ContactDto;
 import dto.ResponseMessageDto;
 import dto.TokenDto;
@@ -112,5 +113,45 @@ public class AddNewContactApiTests implements BaseApi, ILogin {
             throw new RuntimeException(e);
         }
         Assert.assertEquals(response.code(), 403);
+    }
+
+    @Test(dataProvider = "dataProviderWrongContact", dataProviderClass = UserDataProvider.class)
+    public void addNewContactWithIncorrectDataNegativeTest(ContactDto contact) {
+        RequestBody requestBody = RequestBody.create(GSON.toJson(contact), JSON);
+        Request request = new Request.Builder()
+                .url(BASE_URL+ADD_CONTACT)
+                .addHeader(AUTH, tokenDto.getToken())
+                .post(requestBody)
+                .build();
+        Response response;
+        try {
+            response = OK_HTTP_CLIENT.newCall(request).execute();
+            System.out.println(response.body().string());
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        Assert.assertEquals(response.code(), 400);
+    }
+
+    @Test
+    public void addNewContactDublicateNegativeTest() {
+        ContactDto contact = positiveContact();
+        RequestBody requestBody = RequestBody.create(GSON.toJson(contact), JSON);
+        Request request = new Request.Builder()
+                .url(BASE_URL + ADD_CONTACT)
+                .addHeader(AUTH, tokenDto.getToken())
+                .post(requestBody)
+                .build();
+        Response response;
+        Response responseDublicate;
+        try {
+            response = OK_HTTP_CLIENT.newCall(request).execute();
+            System.out.println(response.body().string());
+            responseDublicate = OK_HTTP_CLIENT.newCall(request).execute();
+            System.out.println(responseDublicate.body().string());
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        Assert.assertEquals(responseDublicate.code(), 409);
     }
 }

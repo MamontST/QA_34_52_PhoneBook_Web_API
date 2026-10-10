@@ -1,5 +1,6 @@
 package data_providers;
 
+import dto.ContactDto;
 import dto.UserLombok;
 import org.testng.annotations.DataProvider;
 import utils.PropertiesReader;
@@ -53,4 +54,30 @@ public class UserDataProvider {
         }
         return userList.listIterator();
     }
+
+    @DataProvider
+    public Iterator<ContactDto> dataProviderWrongContact() {
+        List<ContactDto> contactList = new ArrayList<>();
+        try (BufferedReader br = new BufferedReader(
+                new FileReader("src/test/resources/wrong_contacts.csv"))) {
+            String line = br.readLine();
+            while (line != null) {
+                String[] splitLine = line.split(";");
+                contactList.add(ContactDto.builder()
+                        .name(splitLine[0])
+                        .lastName(splitLine[1])
+                        .email(splitLine[2])
+                        .phone(splitLine[3])
+                        .address(splitLine[4])
+                        .description(splitLine[5])
+                        .build());
+                line = br.readLine();
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+            System.out.println(e.getMessage());
+        }
+        return contactList.listIterator();
+    }
 }
+
